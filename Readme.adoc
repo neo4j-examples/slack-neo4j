@@ -1,0 +1,53 @@
+== Neo4j Slack Integration
+
+
+Small Python server to integrate [slack](http://slack.com) with [Neo4j](http://neo4j.com) an open source graph database.
+
+First steps are to import users and channels and list them and run queries in our Neo4j query language Cypher on top of that data.
+
+== Usage
+
+=== Webapp
+
+
+----
+git clone http://github.com/neo4j-examples/slack-neo4j
+
+pip install -r requirements.txt
+
+export NEO4J_URL=http://localhost:7474
+export SLACK_TOKEN=xop-34987294-23423-324
+
+python app.py 8001
+
+curl http://localhost:8001
+curl -XPOST http://localhost:8001/slack
+----
+
+=== Push to Heroku
+
+The application already contains a +Procfile+ for Heroku to run with the port provided.
+You can use a Neo4j instance on http://graphenedb.com[GrapheneDB] or http://graphstory.com[GraphStory] for your experiments.
+
+----
+git clone http://github.com/neo4j-examples/slack-neo4j
+heroku apps:create my-slack-neo4j
+git remote add heroku https://git.heroku.com/my-slack-neo4j.git
+
+heroku config:set NEO4J_URL=http://server:port
+heroku config:set NEO4J_URL=http://localhost:7474
+
+git push heroku master
+----
+
+=== Integration with Slack
+
+Configure a `/graph` slash command that interacts with your server, e.g. http://my-slack-neo4j.herokuapp.com/slack
+
+Add infos for these commands
+
+* list overview
+* [import] ... Import Users and Channels into Neo4j
+* [cypher] query ... Run Cypher query
+
+

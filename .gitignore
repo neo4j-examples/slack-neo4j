@@ -1,0 +1,5 @@
+run.sh
+.DS_Store
+venv
+*.pyc
+
