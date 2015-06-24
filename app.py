@@ -19,10 +19,19 @@ class slack:
          text = data["text"]
          print "text "+text
          command = text.split(" ")[0]
-#         if (command == "") return  overview()
-#         if (command == "import") return insert()
-#         if (command == "cypher") return cypher(text[7:])
+         if (command == "") return  overview()
+         if (command == "import") return insert()
+         if (command == "cypher") return cypher(text[7:])
          return "It works: command: "+command
+
+def overview():
+    return "overview"
+
+def cypher(query):
+    return "cypher "+query
+    
+def insert():
+    return "Inserting data"
 
 if __name__ == "__main__":
     app = web.application(urls, globals())
