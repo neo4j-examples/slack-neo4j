@@ -19,10 +19,14 @@ class slack:
          text = data["text"]
          print "text "+text
          command = text.split(" ")[0]
-         if (command == "") return  overview()
-         if (command == "import") return insert()
-         if (command == "cypher") return cypher(text[7:])
-         return "It works: command: "+command
+         if command == "":
+             return  overview()
+         if command == "import":
+             return insert()
+         if command == "cypher":
+             return cypher(text[7:])
+
+         return "It works: command: {}".format(command)
 
 def overview():
     return "overview"
