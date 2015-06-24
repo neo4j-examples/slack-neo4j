@@ -13,6 +13,9 @@ class index:
 
 class slack:
     def POST(self):
+         print web.data()
+         input = web.input()
+         print input
          return "It works"
 
 if __name__ == "__main__":

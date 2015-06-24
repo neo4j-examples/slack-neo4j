@@ -1,7 +1,7 @@
 == Neo4j Slack Integration
 
 
-Small Python server to integrate [slack](http://slack.com) with [Neo4j](http://neo4j.com) an open source graph database.
+Small Python server to integrate http://slack.com[Slack] with http://neo4j.com[Neo4j] *the* open source graph database.
 
 First steps are to import users and channels and list them and run queries in our Neo4j query language Cypher on top of that data.
 
@@ -17,7 +17,7 @@ pip install -r requirements.txt
 
 export NEO4J_URL=http://localhost:7474
 export SLACK_TOKEN=xop-34987294-23423-324
-
+export TEAM_TOKEN=fVowo4UQVpajf394802fakj
 python app.py 8001
 
 curl http://localhost:8001
@@ -36,6 +36,7 @@ git remote add heroku https://git.heroku.com/my-slack-neo4j.git
 
 heroku config:set NEO4J_URL=http://server:port
 heroku config:set NEO4J_URL=http://localhost:7474
+heroku config:set TEAM_TOKEN=fVowo4UQVpajf394802fakj
 
 git push heroku master
 ----
@@ -44,6 +45,10 @@ git push heroku master
 
 Configure a `/graph` slash command that interacts with your server, e.g. http://my-slack-neo4j.herokuapp.com/slack
 
+Setup a Slack-API token and note it down and configure it as `SLACK_TOKEN` to retrieve data from slack.
+
+Note down the team token and configure it with your app as `TEAM_TOKEN`
+
 Add infos for these commands
 
 * list overview
@@ -51,3 +56,29 @@ Add infos for these commands
 * [cypher] query ... Run Cypher query
 
 
+== Implementation Notes
+
+Howto Integrate Slash commants https://api.slack.com/slash-commands
+They POST a payload to our /slack endpoint like this
+
+----
+token=gIkuvaNzQIHg97ATvDxqgjtO
+team_id=T0001
+team_domain=neo4j
+channel_id=C2147483705
+channel_name=test
+user_id=U2147483697
+user_name=Steve
+command=/graph
+text=cypher match (u:User) return u.name
+----
+
+Idea: dispatch on first word as command:
+
+* nothing -> list statistics
+* `cypher query` -> run cypher query and return results (todo only allow read-only queries)
+* `import` -> import users and channels idempotently
+
+=== Testing
+
+curl -d @post.txt http://localhost:8001/slack
