@@ -22,18 +22,18 @@ class slack:
          data=web.input()
          token = data["token"]
          if team != token: 
-             return "Invalid team token"
+             return "Invalid team token."
+
          text = data["text"]
-         print "text "+text
          command = text.split(" ")[0]
          if command == "":
-             return  overview()
+             return "\n"+overview()
          if command == "import":
-             return insert()
+             return "\n"+insert()
          if command == "cypher":
-             return cypher(text[7:])
+             return "\n"+cypher(text[7:])
 
-         return "It works: command: {}".format(command)
+         return "Unknown command: {}".format(command)
 
 if __name__ == "__main__":
     app = web.application(urls, globals())
