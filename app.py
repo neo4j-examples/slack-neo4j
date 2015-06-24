@@ -27,11 +27,11 @@ class slack:
          text = data["text"]
          command = text.split(" ")[0]
          if command == "":
-             return "\n"+overview()
+             return overview()
          if command == "import":
-             return "\n"+insert()
+             return insert()
          if command == "cypher":
-             return "\n"+cypher(text[7:])
+             return cypher(text[7:])
 
          return "Unknown command: {}".format(command)
 
