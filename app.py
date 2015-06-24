@@ -1,6 +1,6 @@
 import web
+from slack import insert_channels, insert_users
 from graph import overview
-from slack import insert
 from graph import cypher
 import os
 
@@ -19,17 +19,29 @@ class index:
 
 class slack:
     def POST(self):
-         data=web.input()
+         data = web.input()
          token = data["token"]
          if team != token: 
              return "Invalid team token."
 
          text = data["text"]
          command = text.split(" ")[0]
+
          if command == "":
-             return overview()
+             return "\n" + overview()
+
          if command == "import":
-             return insert()
+             type = text.split(" ")[1]
+
+             if type == "channels":
+                 channels = insert_channels()
+                 return "{} channels uploaded".format(channels)
+             elif type == "users":
+                 users = insert_users()
+                 return "{} users uploaded.".format(users)
+             else:
+                 return "No endpoint for inserting {} yet.".format(type)
+
          if command == "cypher":
              return cypher(text[7:])
 
