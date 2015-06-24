@@ -2,7 +2,9 @@ import web
 from graph import overview
 from slack import insert
 from graph import cypher
-#import requests
+import os
+
+team = os.environ.get('TEAM_TOKEN')
 
 web.config.debug=False
 
@@ -18,6 +20,9 @@ class index:
 class slack:
     def POST(self):
          data=web.input()
+         token = data["token"]
+         if team != token: 
+             return "Invalid team token"
          text = data["text"]
          print "text "+text
          command = text.split(" ")[0]
