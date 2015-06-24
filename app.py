@@ -1,5 +1,7 @@
 import web
-#from graph import overview
+from graph import overview
+from slack import insert
+from graph import cypher
 #import requests
 
 web.config.debug=False
@@ -27,15 +29,6 @@ class slack:
              return cypher(text[7:])
 
          return "It works: command: {}".format(command)
-
-def overview():
-    return "overview"
-
-def cypher(query):
-    return "cypher "+query
-    
-def insert():
-    return "Inserting data"
 
 if __name__ == "__main__":
     app = web.application(urls, globals())

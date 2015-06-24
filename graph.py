@@ -3,9 +3,7 @@ import os
 import time
 from py2neo import Graph
 
-# Connect to graph and add constraints.
 url = os.environ.get('NEO4J_URL',"http://localhost:7474/db/data/")
-# url = "http://localhost:7474/db/data/"
 graph = Graph(url)
 
 
@@ -19,8 +17,18 @@ def init():
 
 def overview():
     query = """
-    MATCH (c:Channel)-[r]-() 
-    RETURN c.name, type(r), count(*)
+    MATCH (c:Channel)
+    OPTIONAL MATCH (c)-[r]-() 
+    RETURN c.name, type(r), count(*) as cnt
+    ORDER BY cnt DESC LIMIT 5
     """
     rows = graph.cypher.execute(query)
-    return json.dumps(rows)
+    return rows
+
+def cypher(query):
+    rows = graph.cypher.execute(query)
+    return rows
+
+
+if __name__ == "__main__":
+    print overview()
