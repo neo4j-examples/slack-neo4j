@@ -25,7 +25,12 @@ def overview():
     rows = graph.cypher.execute(query)
     return rows
 
+def isUpdate(query):
+    return re.match("(create|merge|delete|set|remove|drop)",query,flags=re.IGNORECASE)
+    
 def cypher(query):
+    if isUpdate(query):
+        return "Only read-only queries allowed"        
     rows = graph.cypher.execute(query)
     return rows
 
