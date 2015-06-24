@@ -1,11 +1,8 @@
 import requests
-import json
 import os
-from py2neo import Graph
+from graph import graph
 
-url = os.environ.get('NEO4J_URL',"http://localhost:7474/db/data")
 token = os.environ.get('SLACK_TOKEN')
-graph = Graph(url)
 
 def insert_channels() :
     res = requests.get("https://slack.com/api/channels.list?token={}".format(token))
@@ -41,3 +38,29 @@ def insert_users():
     """
 
     return graph.cypher.execute_one(query, {'users': users})
+
+def insert_channels_users():
+    res = requests.get("https://slack.com/api/channels.list?token={}".format(token))
+
+    if res.status_code != 200:
+        raise Exception(u"Invalid Response from Channels endpoint {}".format(res.status_code))
+
+    channels = res.json()['channels']
+
+    query = """
+    MATCH (channel:Channel {id: {channel_id} })
+    MATCH (user:User {id: {user_id} })
+    MERGE (user)-[:MEMBER_OF]->(channel)
+    """
+
+    count = 0
+
+    for channel in channels:
+        channel_id = channel['id']
+        users = channel['members']
+
+        for user_id in users:
+            graph.cypher.execute(query, {'channel_id':channel_id, 'user_id': user_id})
+            count += 1
+
+    return count

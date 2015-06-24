@@ -2,7 +2,7 @@ import os
 
 import web
 
-from slack import insert_channels, insert_users
+from slack import insert_channels, insert_users, insert_channels_users
 from graph import overview
 from graph import cypher
 
@@ -45,6 +45,9 @@ class slack:
             elif type == "users":
                 users = insert_users()
                 return "{} users uploaded.".format(users)
+            elif type == "channels-users":
+                members = insert_channels_users()
+                return "{} memberships uploaded.".format(members)
             else:
                 return "No endpoint for inserting {} yet.".format(type)
 
