@@ -2,6 +2,8 @@ import web
 #from graph import overview
 #import requests
 
+web.config.debug=False
+
 urls = (
     '/', 'index',
     '/slack', 'slack'
@@ -13,7 +15,7 @@ class index:
 
 class slack:
     def POST(self):
-         data = web.data()
+         data=web.input()
          text = data["text"]
          print "text "+text
          command = text.split(" ")[0]
