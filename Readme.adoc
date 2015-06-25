@@ -3,6 +3,8 @@
 
 Small Python server to integrate http://slack.com[Slack] with http://neo4j.com[Neo4j] *the* open source graph database.
 
+image::http://memegen.link/xy/slack-all-the/graph-things.jpg[]
+
 First steps are to import users and channels and list them and run queries in our Neo4j query language Cypher on top of that data.
 
 == Usage
