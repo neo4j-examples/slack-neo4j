@@ -2,7 +2,7 @@ import os
 
 import web
 
-from slack import insert_channels, insert_users, insert_channels_users
+from slack import insert
 from graph import overview
 from graph import cypher
 
@@ -37,19 +37,7 @@ class slack:
             return "\n" + overview()
 
         if command == "import":
-            type = text.split(" ")[1]
-
-            if type == "channels":
-                channels = insert_channels()
-                return "{} channels uploaded".format(channels)
-            elif type == "users":
-                users = insert_users()
-                return "{} users uploaded.".format(users)
-            elif type == "channels-users":
-                members = insert_channels_users()
-                return "{} memberships uploaded.".format(members)
-            else:
-                return "No endpoint for inserting {} yet.".format(type)
+            return insert()
 
         if command == "cypher":
             return cypher(text[7:])
