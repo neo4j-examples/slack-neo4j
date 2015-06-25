@@ -1,21 +1,12 @@
 from graph import graph
 
-def create_unique_if_doesnt_exist(label, property):
-    if property not in graph.schema.get_uniqueness_constraints(label):
-        try:
-            graph.schema.create_uniqueness_constraint(label, property)
-        except Exception as e:
-            print e
+def create_constraint(label, property):
+    graph.cypher.execute("CREATE CONSTRAINT ON (n:{0}) ASSERT n.{1} IS UNIQUE".format(label, property))
 
-def create_index_if_doesnt_exist(label, property):
-    if property not in graph.schema.get_indexes(label):
-        try:
-            graph.schema.create_index(label, property)
-        except Exception as e:
-            print e
+def create_index(label, property):
+    graph.cypher.execute("CREATE INDEX ON :{0}({1})".format(label, property))
 
-create_unique_if_doesnt_exist("User", "id")
-create_unique_if_doesnt_exist("Channel", "id")
-
-create_index_if_doesnt_exist("User", "username")
-create_index_if_doesnt_exist("Channel", "name")
+create_constraint("User", "id")
+create_constraint("Channel", "id")
+create_index("User", "username")
+create_index("Channel", "name")
