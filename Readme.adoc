@@ -81,6 +81,4 @@ Idea: dispatch on first word as command:
 * `cypher query` -> run cypher query and return results (todo only allow read-only queries)
 * `import` -> import users and channels idempotently
 
-=== Testing
-
-curl -d @post.txt http://localhost:8001/slack
+// see also  https://slack-files.com/T02AS3DQ7-F06RBSWCR-faf657b41e
